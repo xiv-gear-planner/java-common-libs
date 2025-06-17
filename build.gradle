@@ -1,0 +1,52 @@
+plugins {
+	id 'base'
+}
+
+group = 'app.xivgear'
+version = '1.0-SNAPSHOT'
+
+allprojects {
+	apply {
+		repositories {
+			mavenCentral()
+		}
+	}
+}
+
+//dependencies {
+//	api 'org.apache.groovy:groovy:4.0.14'
+//}
+
+subprojects {
+	// Apply plugins
+	apply plugin: 'groovy'
+	apply plugin: 'java-library'
+
+	// Set group and version for all subprojects
+	group = 'app.xivgear'
+	version = '1.0-SNAPSHOT'
+
+	// Configure repositories for all subprojects
+	repositories {
+		mavenCentral()
+	}
+
+	java {
+		toolchain {
+			languageVersion = JavaLanguageVersion.of(21) // Adjust version as needed
+		}
+	}
+
+
+	// Configure dependencies for all subprojects
+	dependencies {
+		api 'org.apache.groovy:groovy:4.0.14'
+		testImplementation platform('org.junit:junit-bom:5.10.0')
+		testImplementation 'org.junit.jupiter:junit-jupiter'
+	}
+
+	// Configure test task for all subprojects
+	test {
+		useJUnitPlatform()
+	}
+}
