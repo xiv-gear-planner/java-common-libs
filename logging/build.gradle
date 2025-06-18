@@ -1,9 +1,15 @@
+plugins {
+    id("io.micronaut.library")
+}
+
+
 dependencies {
     // Micronaut dependencies
-    api platform('io.micronaut:micronaut-bom:4.3.5')
+//    api platform('io.micronaut:micronaut-bom:4.3.5')
     api 'io.micronaut:micronaut-http:4.8.11'
 
     // Logging dependencies
     implementation 'org.slf4j:slf4j-api:2.0.12'
     api 'jakarta.inject:jakarta.inject-api:2.0.1'
+    annotationProcessor "io.micronaut:micronaut-inject-java:4.8.11"
 }
