@@ -2,12 +2,6 @@ plugins {
 	id 'base'
 	id 'io.micronaut.library' apply false
 }
-//
-//boolean isRoot = project == rootProject
-//
-//if (isRoot) {
-//	apply plugin:
-//}
 
 group = 'app.xivgear'
 version = '1.0-SNAPSHOT'
@@ -19,10 +13,6 @@ allprojects {
 		}
 	}
 }
-
-//dependencies {
-//	api 'org.apache.groovy:groovy:4.0.14'
-//}
 
 subprojects {
 	// Apply plugins
