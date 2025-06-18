@@ -1,2 +1,9 @@
+pluginManagement {
+	plugins {
+		id 'io.micronaut.library' version '4.5.3'
+	}
+}
+
 rootProject.name = 'java-common-libs'
+
 include 'logging'

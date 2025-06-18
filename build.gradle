@@ -1,6 +1,13 @@
 plugins {
 	id 'base'
+	id 'io.micronaut.library' apply false
 }
+//
+//boolean isRoot = project == rootProject
+//
+//if (isRoot) {
+//	apply plugin:
+//}
 
 group = 'app.xivgear'
 version = '1.0-SNAPSHOT'
