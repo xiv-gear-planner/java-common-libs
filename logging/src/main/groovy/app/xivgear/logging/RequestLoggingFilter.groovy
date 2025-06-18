@@ -2,6 +2,7 @@ package app.xivgear.logging
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+import io.micronaut.context.annotation.Context
 import io.micronaut.core.async.publisher.Publishers
 import io.micronaut.core.order.Ordered
 import io.micronaut.http.HttpRequest
@@ -16,6 +17,7 @@ import org.slf4j.MDC
 @CompileStatic
 @Filter("/**")
 @Slf4j
+@Context
 class RequestLoggingFilter implements Ordered, HttpServerFilter {
 
 	@Inject

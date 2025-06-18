@@ -2,6 +2,7 @@ plugins {
     id("io.micronaut.library")
 }
 
+
 dependencies {
     // Micronaut dependencies
 //    api platform('io.micronaut:micronaut-bom:4.3.5')
