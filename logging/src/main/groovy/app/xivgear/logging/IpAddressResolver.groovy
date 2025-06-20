@@ -10,9 +10,6 @@ import jakarta.inject.Singleton
 @Slf4j
 @Context
 class IpAddressResolver {
-	public IpAddressResolver() {
-		log.info("Foo")
-	}
 
 	String resolveIp(HttpRequest<?> request) {
 		return request.headers
