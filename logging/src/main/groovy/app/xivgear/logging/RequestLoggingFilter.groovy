@@ -5,6 +5,7 @@ import groovy.util.logging.Slf4j
 import io.micronaut.context.annotation.Context
 import io.micronaut.core.async.publisher.Publishers
 import io.micronaut.core.order.Ordered
+import io.micronaut.http.HttpMethod
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.MutableHttpResponse
 import io.micronaut.http.annotation.Filter
@@ -31,10 +32,25 @@ class RequestLoggingFilter implements Ordered, HttpServerFilter {
 		return Publishers.<MutableHttpResponse<?>, MutableHttpResponse<?>> map(responsePublisher, { response ->
 			try {
 				MDC.put "ip", ipAddress
-				log.info("{} {}: {}",
-						request.method,
-						request.path,
-						response.status.code)
+
+				HttpMethod method = request.method
+				String path = request.path
+				int code = response.status.code
+
+				// Ignore health/ready if successful
+				if ((path == "/readyz" || path == "/healthz")
+						&& code == 200) {
+					log.trace("{} {}: {}",
+							method,
+							path,
+							code)
+				}
+				else {
+					log.info("{} {}: {}",
+							method,
+							path,
+							code)
+				}
 				return response
 			}
 			finally {
