@@ -12,4 +12,4 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:2.0.12'
     api 'jakarta.inject:jakarta.inject-api:2.0.1'
     annotationProcessor "io.micronaut:micronaut-inject-java:4.8.11"
-}
+    implementation group: 'org.slf4j', name: 'jul-to-slf4j', version: '2.0.17'}
