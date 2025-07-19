@@ -29,6 +29,7 @@ class RequestLoggingFilter implements Ordered, HttpServerFilter {
 		String ipAddress = ipAddressResolver.resolveIp request
 		MDC.put "ip", ipAddress
 		Publisher<MutableHttpResponse<?>> responsePublisher = chain.proceed request
+		long start = System.currentTimeMillis()
 		return Publishers.<MutableHttpResponse<?>, MutableHttpResponse<?>> map(responsePublisher, { response ->
 			try {
 				MDC.put "ip", ipAddress
@@ -36,20 +37,24 @@ class RequestLoggingFilter implements Ordered, HttpServerFilter {
 				HttpMethod method = request.method
 				String path = request.path
 				int code = response.status.code
+				long end = System.currentTimeMillis()
+				long delta = end - start
 
 				// Ignore health/ready if successful
 				if ((path == "/readyz" || path == "/healthz")
 						&& code == 200) {
-					log.trace("{} {}: {}",
+					log.trace("{} {}: {} ({}ms)",
 							method,
 							path,
-							code)
+							code,
+							delta)
 				}
 				else {
-					log.info("{} {}: {}",
+					log.info("{} {}: {} ({}ms)",
 							method,
 							path,
-							code)
+							code,
+							delta)
 				}
 				return response
 			}
