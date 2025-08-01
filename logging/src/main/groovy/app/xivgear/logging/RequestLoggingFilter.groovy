@@ -3,8 +3,10 @@ package app.xivgear.logging
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import io.micronaut.context.annotation.Context
+import io.micronaut.context.propagation.slf4j.MdcPropagationContext
 import io.micronaut.core.async.publisher.Publishers
 import io.micronaut.core.order.Ordered
+import io.micronaut.core.propagation.PropagatedContext
 import io.micronaut.http.HttpMethod
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.MutableHttpResponse
@@ -26,13 +28,14 @@ class RequestLoggingFilter implements Ordered, HttpServerFilter {
 
 	@Override
 	Publisher<MutableHttpResponse<?>> doFilter(HttpRequest<?> request, ServerFilterChain chain) {
+		// Unfortunately I'm not sure how to do this without reactive
 		String ipAddress = ipAddressResolver.resolveIp request
 		MDC.put "ip", ipAddress
-		Publisher<MutableHttpResponse<?>> responsePublisher = chain.proceed request
 		long start = System.currentTimeMillis()
-		return Publishers.<MutableHttpResponse<?>, MutableHttpResponse<?>> map(responsePublisher, { response ->
-			try {
-				MDC.put "ip", ipAddress
+		//noinspection GroovyUnusedAssignment
+		try (PropagatedContext.Scope _ = (PropagatedContext.get() + new MdcPropagationContext()).propagate()) {
+			Publisher<MutableHttpResponse<?>> responsePublisher = chain.proceed request
+			return Publishers.<MutableHttpResponse<?>, MutableHttpResponse<?>> map(responsePublisher, { response ->
 
 				HttpMethod method = request.method
 				String path = request.path
@@ -43,25 +46,26 @@ class RequestLoggingFilter implements Ordered, HttpServerFilter {
 				// Ignore health/ready if successful
 				if ((path == "/readyz" || path == "/healthz")
 						&& code == 200) {
-					log.trace("{} {}: {} ({}ms)",
+					log.trace "{} {}: {} ({}ms)",
 							method,
 							path,
 							code,
-							delta)
+							delta
 				}
 				else {
-					log.info("{} {}: {} ({}ms)",
+					log.info "{} {}: {} ({}ms)",
 							method,
 							path,
 							code,
-							delta)
+							delta
 				}
 				return response
-			}
-			finally {
-				MDC.remove "ip"
-			}
-		})
+			})
+		}
+		finally {
+			MDC.remove "ip"
+		}
+
 	}
 
 	final int order = -20
