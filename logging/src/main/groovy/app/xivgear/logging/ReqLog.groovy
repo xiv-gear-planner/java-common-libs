@@ -18,7 +18,7 @@ import org.slf4j.MDC
 @Filter("/**")
 @Slf4j
 @Context
-class RequestLoggingFilter implements Ordered, HttpServerFilter {
+class ReqLog implements Ordered, HttpServerFilter {
 
 	@Inject
 	IpAddressResolver ipAddressResolver
