@@ -39,6 +39,7 @@ class ReqLog implements Ordered, HttpServerFilter {
 
 				HttpMethod method = request.method
 				String path = request.path
+				String fullPath = request.uri.rawPath + (request.uri.rawQuery ? "?" + request.uri.rawQuery : "")
 				int code = response.status.code
 				long end = System.currentTimeMillis()
 				long delta = end - start
@@ -46,16 +47,16 @@ class ReqLog implements Ordered, HttpServerFilter {
 				// Ignore health/ready if successful
 				if ((path == "/readyz" || path == "/healthz")
 						&& code == 200) {
-					log.trace "{} {}: {} ({}ms)",
+					log.trace "{} {} {} ({}ms)",
 							method,
-							path,
+							fullPath,
 							code,
 							delta
 				}
 				else {
-					log.info "{} {}: {} ({}ms)",
+					log.info "{} {} {} ({}ms)",
 							method,
-							path,
+							fullPath,
 							code,
 							delta
 				}
