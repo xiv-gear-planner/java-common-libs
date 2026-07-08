@@ -30,13 +30,14 @@ subprojects {
 
 	java {
 		toolchain {
-			languageVersion = JavaLanguageVersion.of(21) // Adjust version as needed
+			languageVersion = JavaLanguageVersion.of(25) // Adjust version as needed
 		}
 	}
 
 
 	// Configure dependencies for all subprojects
 	dependencies {
+//		api platform("io.micronaut.platform:micronaut-platform:5.0.1")
 		api 'org.apache.groovy:groovy:4.0.14'
 		testImplementation platform('org.junit:junit-bom:5.10.0')
 		testImplementation 'org.junit.jupiter:junit-jupiter'
