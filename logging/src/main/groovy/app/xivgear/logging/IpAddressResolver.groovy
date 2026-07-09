@@ -4,7 +4,6 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import io.micronaut.context.annotation.Context
 import io.micronaut.http.HttpRequest
-import jakarta.inject.Singleton
 
 @CompileStatic
 @Slf4j
