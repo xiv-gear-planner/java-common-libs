@@ -34,10 +34,10 @@ class ReqLog implements Ordered, HttpServerFilter {
 		long start = System.currentTimeMillis()
 		//noinspection GroovyUnusedAssignment
 		try (PropagatedContext.Scope _ = (PropagatedContext.get() + new MdcPropagationContext()).propagate()) {
-			String ipAddressInner = ipAddressResolver.resolveIp request
-			MDC.put "ip", ipAddressInner
 			Publisher<MutableHttpResponse<?>> responsePublisher = chain.proceed request
 			return Publishers.<MutableHttpResponse<?>, MutableHttpResponse<?>> map(responsePublisher, { response ->
+				String ipAddressInner = ipAddressResolver.resolveIp request
+				MDC.put "ip", ipAddressInner
 
 				HttpMethod method = request.method
 				String path = request.path
