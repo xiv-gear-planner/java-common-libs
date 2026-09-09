@@ -21,7 +21,7 @@ class PeriodicMemStats {
 		MemoryMXBean memory = ManagementFactory.memoryMXBean
 		MemoryUsage heap = memory.heapMemoryUsage
 		MemoryUsage nonHeap = memory.nonHeapMemoryUsage
-		log.info("Memory: heap [${format(heap)}]; other [${format(nonHeap)}")
+		log.info("Memory: heap [${format(heap)}]; other [${format(nonHeap)}]")
 	}
 
 	private static String format(MemoryUsage mu) {
@@ -29,7 +29,7 @@ class PeriodicMemStats {
 		long commitMi = mu.committed.intdiv(1024 * 1024)
 		long max = mu.max
 		if (max == -1) {
-			return "${usedMi} / ${commitMi} (max unknown)"
+			return "${usedMi}Mi / ${commitMi}Mi (max unknown)"
 		}
 		else {
 			long maxMi = max.intdiv(1024 * 1024)
