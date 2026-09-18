@@ -37,6 +37,9 @@ class ReqLog implements Ordered, HttpServerFilter {
 			Publisher<MutableHttpResponse<?>> responsePublisher = chain.proceed request
 			return Publishers.<MutableHttpResponse<?>, MutableHttpResponse<?>> map(responsePublisher, { response ->
 
+				String ipAddressInner = ipAddressResolver.resolveIp request
+				MDC.put "ip", ipAddressInner
+
 				HttpMethod method = request.method
 				String path = request.path
 				String fullPath = request.uri.rawPath + (request.uri.rawQuery ? "?" + request.uri.rawQuery : "")
