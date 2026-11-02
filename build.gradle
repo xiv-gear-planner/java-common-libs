@@ -16,7 +16,6 @@ allprojects {
 
 subprojects {
 	// Apply plugins
-	apply plugin: 'groovy'
 	apply plugin: 'java-library'
 
 	// Set group and version for all subprojects
@@ -30,14 +29,14 @@ subprojects {
 
 	java {
 		toolchain {
-			languageVersion = JavaLanguageVersion.of(21) // Adjust version as needed
+			languageVersion = JavaLanguageVersion.of(25) // Adjust version as needed
 		}
 	}
 
 
 	// Configure dependencies for all subprojects
 	dependencies {
-		api 'org.apache.groovy:groovy:4.0.14'
+//		api platform("io.micronaut.platform:micronaut-platform:5.0.1")
 		testImplementation platform('org.junit:junit-bom:5.10.0')
 		testImplementation 'org.junit.jupiter:junit-jupiter'
 	}
