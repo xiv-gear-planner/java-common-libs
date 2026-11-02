@@ -34,6 +34,6 @@ public class PeriodicMemStats {
 		long maxMi = max / (1024 * 1024);
 		int usedPct = (int) ((double) usage.getUsed() / max * 100);
 		int committedPct = (int) ((double) usage.getCommitted() / max * 100);
-		return usedMi + "Mi (" + usedPct + "%) / " + committedMi + "Mi (" + committedPct + "%) / " + maxMi + "Mi";
+		return "%dMi (%d%%) / %dMi (%d%%) / %dMi".formatted(usedMi, usedPct, committedMi, committedPct, maxMi);
 	}
 }
